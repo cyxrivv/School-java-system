@@ -96,7 +96,7 @@ public class CreateWindow extends JFrame {
         }
     }
 
-    // 🔥 VERIFY → CREATE → RETURN TO LOGIN
+    
     private void verifyAndCreateAccount() {
         String enteredOTP = txtOTP.getText().trim();
 
@@ -121,8 +121,8 @@ public class CreateWindow extends JFrame {
 
         if (Queries.createAccount(username, email, password)) {
             JOptionPane.showMessageDialog(this, "Account created successfully!");
-            loginWindow.showAgain();   // RETURN TO LOGIN
-            dispose();                // CLOSE SIGNUP
+            loginWindow.showAgain();   
+            dispose();                
         } else {
             JOptionPane.showMessageDialog(this, "Failed to create account!");
         }
@@ -132,3 +132,4 @@ public class CreateWindow extends JFrame {
         setVisible(true);
     }
 }
+
