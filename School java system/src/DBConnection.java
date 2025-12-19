@@ -8,7 +8,7 @@ public class DBConnection {
     
     private static final String URL = "jdbc:mysql://localhost:3306/biringan_data";
     private static final String USER = "root";
-    private static final String PASSWORD = "DOWNTOWN08@ced";
+    private static final String PASSWORD = "";
 
     
     public static Connection getConnection() {
@@ -23,3 +23,4 @@ public class DBConnection {
         return conn;
     }
 }
+
