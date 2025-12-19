@@ -1,25 +1,27 @@
 import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
 
 public class DashboardWindow extends JFrame {
 
     private JPanel contentPane;
     private JLabel lblWelcome;
+    private String userEmail;
 
     public DashboardWindow() {
-        initialize(null);
+        this(null);
     }
 
     public DashboardWindow(String email) {
-        initialize(email);
+        this.userEmail = email;
+        initialize();
     }
 
-    private void initialize(String email) {
+    private void initialize() {
         setTitle("BN University | Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
         setLocationRelativeTo(null);
+        setResizable(false);
 
         contentPane = new JPanel();
         contentPane.setLayout(null);
@@ -27,47 +29,52 @@ public class DashboardWindow extends JFrame {
         setContentPane(contentPane);
 
         lblWelcome = new JLabel(
-            "Welcome to Biringan National University, " 
-            + (email != null ? email : "Student") + "!"
+            "Welcome to Biringan National University, "
+            + (userEmail != null ? userEmail : "Student") + "!"
         );
         lblWelcome.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblWelcome.setBounds(76, 69, 520, 40);
+        lblWelcome.setBounds(50, 60, 520, 40);
         contentPane.add(lblWelcome);
 
-        // Enrollment Button
         JButton btnEnroll = new JButton("Enrollment");
         btnEnroll.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        btnEnroll.setFocusPainted(false);
-        btnEnroll.setBounds(209, 128, 150, 40);
-        btnEnroll.setBackground(new Color(220, 220, 220));
-        btnEnroll.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        btnEnroll.setBounds(225, 130, 150, 40);
         contentPane.add(btnEnroll);
 
-        btnEnroll.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                SavingsWindow save = new SavingsWindow();
-                save.setVisible(true);
-            }
-        });
+        btnEnroll.addActionListener(e -> openEnrollment());
 
-        // Logout Button
         JButton btnLogout = new JButton("Logout");
         btnLogout.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        btnLogout.setFocusPainted(false);
-        btnLogout.setBounds(209, 189, 150, 40);
-        btnLogout.setBackground(new Color(220, 220, 220));
-        btnLogout.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        btnLogout.setBounds(225, 190, 150, 40);
         contentPane.add(btnLogout);
 
-        btnLogout.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        btnLogout.addActionListener(e -> logout());
+    }
+
+    private void openEnrollment() {
+        SwingUtilities.invokeLater(() -> {
+            try {
+                enrollmentDashboard enrollment = new enrollmentDashboard();
+                enrollment.setVisible(true);
                 dispose();
-                new LoginWindow().showWindow();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(
+                    this,
+                    "Enrollment window failed to open.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+                );
             }
         });
-        
-        setResizable(false);
+    }
 
+    private void logout() {
+        SwingUtilities.invokeLater(() -> {
+            dispose();
+            LoginWindow login = new LoginWindow();
+            login.showWindow();
+        });
     }
 
     public void showWindow() {
